@@ -1,0 +1,53 @@
+const express = require('express');
+const mongoose = require('mongoose');
+const bodyParser = require('body-parser');
+
+// Import routes
+const employeeRoutes = require('./routes/employee.routes');
+const departmentRoutes = require('./routes/department.routes');
+const collegeRoutes = require('./routes/college.routes');
+const adminRoutes = require('./routes/admin.routes');
+const categoryRequirementRoutes = require('./routes/categoryRequirement.routes');
+const departmentRequirementRoutes = require('./routes/departmentRequirement.routes');
+const workplaceRoutes = require('./routes/workplace.routes');
+const certificateRoutes = require('./routes/certificate.routes');
+const generalSpecializationRoutes = require('./routes/generalSpecialization.routes');
+const subspecialtyRoutes = require('./routes/subspecialty.routes');
+const positionRoutes = require('./routes/position.routes');
+const jobGradeRoutes = require('./routes/jobGrade.routes');
+const employeeSuggestionRoutes = require('./routes/employeeSuggestion.routes');
+
+const app = express();
+const cors = require('cors');
+// ...
+app.use(cors()); // Allow all origins (for development)
+
+// Middleware
+app.use(bodyParser.json());
+
+// Set up routes
+app.use('/api/employees', employeeRoutes);
+app.use('/api/departments', departmentRoutes);
+app.use('/api/colleges', collegeRoutes);
+app.use('/api/admins', adminRoutes);
+app.use('/api/category-requirements', categoryRequirementRoutes);
+app.use('/api/department-requirements', departmentRequirementRoutes);
+app.use('/api/workplaces', workplaceRoutes);
+app.use('/api/certificates', certificateRoutes);
+app.use('/api/general-specializations', generalSpecializationRoutes);
+app.use('/api/subspecialties', subspecialtyRoutes);
+app.use('/api/positions', positionRoutes);
+app.use('/api/job-grades', jobGradeRoutes);
+app.use('/api/employee-suggestions', employeeSuggestionRoutes);
+
+// MongoDB connection and server startup
+const PORT = process.env.PORT || 5000;
+const MONGO_URI = process.env.MONGO_URI || 'mongodb://localhost:27017/jdb';
+
+mongoose
+  .connect(MONGO_URI, { useNewUrlParser: true, useUnifiedTopology: true })
+  .then(() => {
+    console.log('Connected to MongoDB');
+    app.listen(PORT, () => console.log(`Server running on port ${PORT}`));
+  })
+  .catch(err => console.error('MongoDB connection error:', err));
