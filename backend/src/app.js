@@ -30,13 +30,15 @@ const corsOptions = {
     /^(http:\/\/.+:8080)$/,
     /^(http:\/\/.+:8085)$/,
     /^(http:\/\/.+:80)$/,
-    'http://jdp.ntu.edu.iq', // Removed trailing slash
+    'http://jdp.ntu.edu.iq', // Exactly matching the client origin
     /^(http:\/\/.+:3000)$/,
     /^(http:\/\/.+:5000)$/,
     /^(http:\/\/.+:3001)$/,
     /^(http:\/\/.+:3100)$/,
   ],
   credentials: true,
+  allowedHeaders: ['Content-Type', 'Authorization'], // Ensure these headers are allowed
+
 };
 
 app.use(cors(corsOptions));
