@@ -130,7 +130,7 @@ export default function DepartmentsPage() {
                 </SelectTrigger>
                 <SelectContent>
                   {colleges.map((college) => (
-                    <SelectItem key={college.id} value={college.id}>
+                    <SelectItem key={college._id} value={college._id}>
                       {college.name}
                     </SelectItem>
                   ))}
@@ -151,9 +151,9 @@ export default function DepartmentsPage() {
         </TableHeader>
         <TableBody>
           {departments.map((department) => (
-            <TableRow key={department.id}>
+            <TableRow key={department._id}>
               <TableCell>{department.name}</TableCell>
-              <TableCell>{colleges.find((c) => c.id === department.collegeId)?.name}</TableCell>
+              <TableCell>{colleges.find((c) => c._id === department.collegeId)?.name}</TableCell>
               <TableCell>
                 <Dialog open={isEditingDepartment} onOpenChange={setIsEditingDepartment}>
                   <DialogTrigger asChild>
@@ -187,7 +187,7 @@ export default function DepartmentsPage() {
                         </SelectTrigger>
                         <SelectContent>
                           {colleges.map((college) => (
-                            <SelectItem key={college.id} value={college.id}>
+                            <SelectItem key={college._id} value={college._id}>
                               {college.name}
                             </SelectItem>
                           ))}
@@ -200,7 +200,7 @@ export default function DepartmentsPage() {
                 <Button
                   variant="outline"
                   size="sm"
-                  onClick={() => handleDeleteDepartment(department.id)}
+                  onClick={() => handleDeleteDepartment(department._id)}
                   className="mr-2"
                 >
                   حذف

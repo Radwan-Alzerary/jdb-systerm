@@ -130,7 +130,7 @@ export default function GeneralSpecializationsPage() {
         </TableHeader>
         <TableBody>
           {generalSpecializations.map((specialization) => (
-            <TableRow key={specialization.id}>
+            <TableRow key={specialization._id}>
               <TableCell>{specialization.name}</TableCell>
               <TableCell>
                 <Dialog>
@@ -164,7 +164,7 @@ export default function GeneralSpecializationsPage() {
                 <Button
                   variant="outline"
                   size="sm"
-                  onClick={() => handleDeleteSpecialization(specialization.id)}
+                  onClick={() => handleDeleteSpecialization(specialization._id)}
                   className="mr-2"
                 >
                   حذف

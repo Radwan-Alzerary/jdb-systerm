@@ -17,7 +17,7 @@ interface AutocompleteProps {
 export function Autocomplete({ options, onSelect, placeholder = "Search..." }: AutocompleteProps) {
   const [open, setOpen] = React.useState(false)
   const [value, setValue] = React.useState("")
-
+   console.log(value)
   return (
     <Popover open={open} onOpenChange={setOpen}>
       <PopoverTrigger asChild>

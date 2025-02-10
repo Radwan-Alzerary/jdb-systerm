@@ -68,12 +68,12 @@ export function AdminForm({ admin, onSubmit, colleges, departments }: AdminFormP
             <SelectContent>
               {role === "college"
                 ? colleges.map((college) => (
-                    <SelectItem key={college.id} value={college.id}>
+                    <SelectItem key={college._id} value={college._id}>
                       {college.name}
                     </SelectItem>
                   ))
                 : departments.map((department) => (
-                    <SelectItem key={department.id} value={department.id}>
+                    <SelectItem key={department._id} value={department._id}>
                       {department.name}
                     </SelectItem>
                   ))}

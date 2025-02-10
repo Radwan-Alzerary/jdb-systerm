@@ -15,7 +15,13 @@ import type {
 import { Button } from "@/components/ui/button"
 import { PlusIcon, Pencil } from "lucide-react"
 import { Table, TableBody, TableCell, TableHead, TableHeader, TableRow } from "@/components/ui/table"
-import { Dialog, DialogContent, DialogHeader, DialogTitle, DialogTrigger } from "@/components/ui/dialog"
+import {
+  Dialog,
+  DialogTrigger,
+  DialogContent,
+  DialogHeader,
+  DialogTitle,
+} from "@/components/ui/dialog";
 import { useToast } from "@/components/ui/use-toast"
 import { EmployeeForm } from "@/components/EmployeeForm"
 import {
@@ -189,7 +195,7 @@ export default function EmployeesPage() {
         <TableHeader>
           <TableRow>
             <TableHead>الاسم</TableHead>
-            <TableHead>نوع الوظيفة</TableHead>
+            <TableHead>صنف الملاك</TableHead>
             <TableHead>الشهادة</TableHead>
             <TableHead>التخصص العام</TableHead>
             <TableHead>التخصص الدقيق</TableHead>
@@ -197,28 +203,28 @@ export default function EmployeesPage() {
             <TableHead>مكان العمل</TableHead>
             <TableHead>الكلية</TableHead>
             <TableHead>القسم</TableHead>
-            <TableHead>الدرجة الوظيفية</TableHead>
+            <TableHead>القب العلمي</TableHead>
             <TableHead>التعيين</TableHead>
             <TableHead>الإجراءات</TableHead>
           </TableRow>
         </TableHeader>
         <TableBody>
           {employees.map((employee) => (
-            <TableRow key={employee.id}>
+            <TableRow key={employee._id}>
               <TableCell>{`${employee.name.split(" ")[0]} ${employee.name.split(" ")[1]} ${employee.name.split(" ")[2]} ${employee.name.split(" ")[3]}`}</TableCell>
               <TableCell>
-                {employee.type === "Full-time" ? "دوام كامل" : employee.type === "Part-time" ? "دوام جزئي" : "عقد"}
+                {employee.type === "Full-time" ? "ملاك" : employee.type === "Part-time" ? "منسب" : "عقد"}
               </TableCell>
-              <TableCell>{certificates.find((c) => c.id === employee.certificateId)?.name}</TableCell>
+              <TableCell>{certificates.find((c) => c._id === employee.certificateId)?.name}</TableCell>
               <TableCell>
-                {generalSpecializations.find((gs) => gs.id === employee.generalSpecializationId)?.name}
+                {generalSpecializations.find((gs) => gs._id === employee.generalSpecializationId)?.name}
               </TableCell>
-              <TableCell>{subspecialties.find((s) => s.id === employee.subspecialtyId)?.name}</TableCell>
-              <TableCell>{positions.find((p) => p.id === employee.positionId)?.name}</TableCell>
-              <TableCell>{workplaces.find((w) => w.id === employee.workplaceId)?.name}</TableCell>
-              <TableCell>{colleges.find((c) => c.id === employee.collegeId)?.name}</TableCell>
-              <TableCell>{departments.find((d) => d.id === employee.departmentId)?.name}</TableCell>
-              <TableCell>{jobGrades.find((j) => j.id === employee.jobGradeId)?.name}</TableCell>
+              <TableCell>{subspecialties.find((s) => s._id === employee.subspecialtyId)?.name}</TableCell>
+              <TableCell>{positions.find((p) => p._id === employee.positionId)?.name}</TableCell>
+              <TableCell>{workplaces.find((w) => w._id === employee.workplaceId)?.name}</TableCell>
+              <TableCell>{colleges.find((c) => c._id === employee.collegeId)?.name}</TableCell>
+              <TableCell>{departments.find((d) => d._id === employee.departmentId)?.name}</TableCell>
+              <TableCell>{jobGrades.find((j) => j._id === employee.jobGradeId)?.name}</TableCell>
               <TableCell>
                 {employee.isAssigned ? (
                   <>
@@ -262,7 +268,7 @@ export default function EmployeesPage() {
                     />
                   </DialogContent>
                 </Dialog>
-                <Button variant="outline" size="sm" onClick={() => handleDelete(employee.id)} className="ml-2">
+                <Button variant="outline" size="sm" onClick={() => handleDelete(employee._id)} className="ml-2">
                   Delete
                 </Button>
               </TableCell>

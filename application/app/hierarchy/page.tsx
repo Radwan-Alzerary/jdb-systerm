@@ -72,8 +72,7 @@ export default function HierarchyPage() {
   const [selectedDepartment, setSelectedDepartment] = useState<string | null>(null)
   const [selectedCategory, setSelectedCategory] = useState<EmployeeCategory | null>(null)
   const [employees, setEmployees] = useState<Employee[]>([])
-
-  useEffect(() => {
+    useEffect(() => {
     fetchHierarchy()
   }, [])
 
@@ -104,7 +103,7 @@ export default function HierarchyPage() {
       const hierarchyData: HierarchyCollege[] = collegesData.map((college: College) => ({
         ...college,
         departments: departmentsData
-          .filter((dept: Department) => dept.collegeId === college.id)
+          .filter((dept: Department) => dept.collegeId === college._id)
           .map((dept: Department) => ({
             ...dept,
             employees: {
@@ -116,9 +115,9 @@ export default function HierarchyPage() {
       }))
 
       employeesData.forEach((employee: Employee) => {
-        const college = hierarchyData.find((c) => c.id === employee.collegeId)
+        const college = hierarchyData.find((c) => c._id === employee.collegeId)
         if (college) {
-          const department = college.departments.find((d) => d.id === employee.departmentId)
+          const department = college.departments.find((d) => d._id === employee.departmentId)
           if (department) {
             const category: EmployeeCategory =
               employee.type === "Full-time" ? "تدريسي" : employee.type === "Part-time" ? "إداري" : "فني"
@@ -167,7 +166,7 @@ export default function HierarchyPage() {
   }
 
   const handleMoveEmployee = async (employeeId: string, newDepartmentId: string, newCategory: EmployeeCategory) => {
-    const employee = employees.find((e) => e.id === employeeId)
+    const employee = employees.find((e) => e._id === employeeId)
     if (!employee) return
 
     const updatedEmployee: Employee = {
@@ -193,20 +192,22 @@ export default function HierarchyPage() {
       })
     }
   }
+  // const availableEmployees = employees.filter((e) => e.departmentId !== department._id);
+  console.log("Available employees for department",  hierarchyData);
 
   return (
     <div className="container mx-auto p-4">
       <h1 className="text-3xl font-bold mb-6">الهيكل التنظيمي</h1>
       <Accordion type="single" collapsible className="w-full space-y-4">
         {hierarchyData.map((college) => (
-          <AccordionItem value={college.id} key={college.id} className="border rounded-lg">
+          <AccordionItem value={college._id} key={college._id} className="border rounded-lg">
             <AccordionTrigger className="px-4 py-2 hover:bg-accent hover:text-accent-foreground">
               <h2 className="text-xl font-semibold">{college.name}</h2>
             </AccordionTrigger>
             <AccordionContent>
               <div className="p-4 space-y-4">
                 {college.departments.map((department) => (
-                  <Card key={department.id}>
+                  <Card key={department._id}>
                     <CardHeader>
                       <CardTitle>{department.name}</CardTitle>
                     </CardHeader>
@@ -227,7 +228,7 @@ export default function HierarchyPage() {
                                   {department.employees[category].length > 0 ? (
                                     <ul className="space-y-2">
                                       {department.employees[category].map((employee) => (
-                                        <li key={employee.id} className="text-sm flex items-center justify-between">
+                                        <li key={employee._id} className="text-sm flex items-center justify-between">
                                           <span>{employee.name}</span>
                                           {employee.isAssigned && (
                                             <Badge variant="outline" className="ml-2">
@@ -245,13 +246,13 @@ export default function HierarchyPage() {
                                   <Dialog
                                     open={
                                       isAddingEmployee &&
-                                      selectedDepartment === department.id &&
+                                      selectedDepartment === department._id &&
                                       selectedCategory === category
                                     }
                                     onOpenChange={(open) => {
                                       setIsAddingEmployee(open)
                                       if (open) {
-                                        setSelectedDepartment(department.id)
+                                        setSelectedDepartment(department._id)
                                         setSelectedCategory(category)
                                       } else {
                                         setSelectedDepartment(null)
@@ -265,7 +266,7 @@ export default function HierarchyPage() {
                                         size="sm"
                                         className="w-full"
                                         onClick={() => {
-                                          setSelectedDepartment(department.id)
+                                          setSelectedDepartment(department._id)
                                           setSelectedCategory(category)
                                           setIsAddingEmployee(true)
                                         }}
@@ -277,13 +278,17 @@ export default function HierarchyPage() {
                                       <DialogHeader>
                                         <DialogTitle>إضافة موظف للقسم</DialogTitle>
                                       </DialogHeader>
+                                      <>
+                                      <div>
+                                        {employees.departmentId}
+                                        </div></>
                                       <EmployeeSelector
-                                        employees={employees.filter((e) => e.departmentId !== department.id)}
+                                        employees={employees.filter((e) => e.departmentId !== department._id)}
                                         onSelectEmployee={(employeeId) =>
-                                          handleMoveEmployee(employeeId, department.id, category)
+                                          handleMoveEmployee(employeeId, department._id, category)
                                         }
                                         onAddEmployee={(employee) =>
-                                          handleAddEmployee({ ...employee, departmentId: department.id })
+                                          handleAddEmployee({ ...employee, departmentId: department._id })
                                         }
                                         category={category}
                                         certificates={certificates}
@@ -294,8 +299,8 @@ export default function HierarchyPage() {
                                         colleges={hierarchyData}
                                         departments={
                                           department.collegeId
-                                            ? hierarchyData.find((c) => c.id === department.collegeId)?.departments ||
-                                              []
+                                            ? hierarchyData.find((c) => c._id === department.collegeId)?.departments ||
+                                            []
                                             : []
                                         }
                                         jobGrades={jobGrades}

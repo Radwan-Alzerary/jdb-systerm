@@ -132,7 +132,7 @@ export default function CertificatesPage() {
         </TableHeader>
         <TableBody>
           {certificates.map((certificate) => (
-            <TableRow key={certificate.id}>
+            <TableRow key={certificate._id}>
               <TableCell>{certificate.name}</TableCell>
               <TableCell>
                 <Dialog open={isEditingCertificate} onOpenChange={setIsEditingCertificate}>
@@ -167,7 +167,7 @@ export default function CertificatesPage() {
                 <Button
                   variant="outline"
                   size="sm"
-                  onClick={() => handleDeleteCertificate(certificate.id)}
+                  onClick={() => handleDeleteCertificate(certificate._id)}
                   className="mr-2"
                 >
                   حذف

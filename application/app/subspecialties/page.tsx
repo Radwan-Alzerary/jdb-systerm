@@ -125,7 +125,7 @@ export default function SubspecialtiesPage() {
         </TableHeader>
         <TableBody>
           {subspecialties.map((subspecialty) => (
-            <TableRow key={subspecialty.id}>
+            <TableRow key={subspecialty._id}>
               <TableCell>{subspecialty.name}</TableCell>
               <TableCell>
                 <Dialog>
@@ -159,7 +159,7 @@ export default function SubspecialtiesPage() {
                 <Button
                   variant="outline"
                   size="sm"
-                  onClick={() => handleDeleteSubspecialty(subspecialty.id)}
+                  onClick={() => handleDeleteSubspecialty(subspecialty._id)}
                   className="mr-2"
                 >
                   حذف

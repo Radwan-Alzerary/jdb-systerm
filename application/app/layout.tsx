@@ -1,22 +1,22 @@
-import "./globals.css"
-import { Inter } from "next/font/google"
-import { AppSidebar } from "@/components/AppSidebar"
-import { ThemeProvider } from "@/components/ThemeProvider"
-import { Toaster } from "@/components/ui/toaster"
-import { AuthProvider } from "@/contexts/AuthContext"
-import { SignOutButton } from "@/components/SignOutButton"
+import "@/styles/globals.css";
+import { Inter } from "next/font/google";
+import { AuthProvider } from "@/contexts/AuthContext";
+import { ThemeProvider } from "@/components/ThemeProvider";
+import { Toaster } from "@/components/ui/toaster";
+import { AppSidebar } from "@/components/AppSidebar";
+import { SignOutButton } from "@/components/SignOutButton";
 
-const inter = Inter({ subsets: ["latin"] })
+const inter = Inter({ subsets: ["latin"] });
 
 export const metadata = {
-  title: "نظام إدارة الموظفين",
-  description: "إدارة الموظفين والأقسام والكليات",
-}
+  title: "نظام توصيف الملاك",
+  description: "إدارة خطة توصيف الملاك الخاصة بالأقسام والكليات",
+};
 
 export default function RootLayout({
   children,
 }: {
-  children: React.ReactNode
+  children: React.ReactNode;
 }) {
   return (
     <html lang="ar" suppressHydrationWarning>
@@ -37,6 +37,5 @@ export default function RootLayout({
         </AuthProvider>
       </body>
     </html>
-  )
+  );
 }
-

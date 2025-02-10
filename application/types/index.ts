@@ -21,6 +21,7 @@ export interface Employee {
 }
 
 export interface Department {
+  _id: string
   id: string
   name: string
   collegeId: string
@@ -28,6 +29,7 @@ export interface Department {
 }
 
 export interface College {
+  _id: string
   id: string
   name: string
   adminId?: string
@@ -36,6 +38,7 @@ export interface College {
 export type AdminRole = "full" | "college" | "department"
 
 export interface Admin {
+  _id:string
   id: string
   name: string
   email: string
@@ -45,6 +48,8 @@ export interface Admin {
 }
 
 export interface CategoryRequirement {
+  _id: string
+
   id: string
   numberOfEmployees: number
   requiredCertificateIds: string[]

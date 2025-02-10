@@ -62,6 +62,7 @@ export default function AdminManagementPage() {
 
   const handleUpdateAdmin = async (admin: Admin) => {
     try {
+      console.log("admin:",admin)
       await updateAdmin(admin)
       fetchData()
       setEditingAdmin(null)
@@ -127,7 +128,7 @@ export default function AdminManagementPage() {
         </TableHeader>
         <TableBody>
           {admins.map((admin) => (
-            <TableRow key={admin.id}>
+            <TableRow key={admin._id}>
               <TableCell>{admin.name}</TableCell>
               <TableCell>{admin.email}</TableCell>
               <TableCell>
@@ -135,9 +136,9 @@ export default function AdminManagementPage() {
               </TableCell>
               <TableCell>
                 {admin.role === "college"
-                  ? colleges.find((c) => c.id === admin.entityId)?.name
+                  ? colleges.find((c) => c._id === admin.entityId)?.name
                   : admin.role === "department"
-                    ? departments.find((d) => d.id === admin.entityId)?.name
+                    ? departments.find((d) => d._id === admin.entityId)?.name
                     : "-"}
               </TableCell>
               <TableCell>
@@ -159,7 +160,7 @@ export default function AdminManagementPage() {
                     />
                   </DialogContent>
                 </Dialog>
-                <Button variant="outline" size="sm" onClick={() => handleDeleteAdmin(admin.id)}>
+                <Button variant="outline" size="sm" onClick={() => handleDeleteAdmin(admin._id)}>
                   حذف
                 </Button>
               </TableCell>

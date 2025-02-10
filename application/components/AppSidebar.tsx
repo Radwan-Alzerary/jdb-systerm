@@ -38,11 +38,11 @@ const menuItems = [
   { icon: Microscope, label: "التخصصات الدقيقة", href: "/subspecialties" },
   { icon: Briefcase, label: "المناصب", href: "/positions" },
   { icon: MapPin, label: "أماكن العمل", href: "/workplaces" },
-  { icon: GraduationCap, label: "الكليات", href: "/colleges" },
+  { icon: GraduationCap, label: "الكليات و المعاهد", href: "/colleges" },
   { icon: Building2, label: "الأقسام", href: "/departments" },
   { icon: ClipboardList, label: "متطلبات الأقسام", href: "/department-requirements" },
   { icon: HierarchyIcon, label: "الهيكل التنظيمي", href: "/hierarchy" },
-  { icon: Briefcase, label: "الدرجات الوظيفية", href: "/job-grades" },
+  { icon: Briefcase, label: "الدرجة الوظيفية", href: "/job-grades" },
   { icon: Shield, label: "إدارة المسؤولين", href: "/admin-management" },
 ]
 

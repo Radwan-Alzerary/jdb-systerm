@@ -125,7 +125,7 @@ export default function PositionsPage() {
         </TableHeader>
         <TableBody>
           {positions.map((position) => (
-            <TableRow key={position.id}>
+            <TableRow key={position._id}>
               <TableCell>{position.name}</TableCell>
               <TableCell>
                 <Dialog>
@@ -151,7 +151,7 @@ export default function PositionsPage() {
                     </form>
                   </DialogContent>
                 </Dialog>
-                <Button variant="outline" size="sm" onClick={() => handleDeletePosition(position.id)} className="mr-2">
+                <Button variant="outline" size="sm" onClick={() => handleDeletePosition(position._id)} className="mr-2">
                   حذف
                 </Button>
               </TableCell>

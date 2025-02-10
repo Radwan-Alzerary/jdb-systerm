@@ -125,7 +125,7 @@ export default function WorkplacesPage() {
         </TableHeader>
         <TableBody>
           {workplaces.map((workplace) => (
-            <TableRow key={workplace.id}>
+            <TableRow key={workplace._id}>
               <TableCell>{workplace.name}</TableCell>
               <TableCell>
                 <Dialog>
@@ -147,7 +147,7 @@ export default function WorkplacesPage() {
                     </DialogHeader>
                     <form onSubmit={handleUpdateWorkplace} className="space-y-4">
                       <Input
-                        placeholder="اسم مكان العمل"
+                        placeholder="اسم مكان العمل / قسم / شعبة / وحدة "
                         value={name}
                         onChange={(e) => setName(e.target.value)}
                         required
@@ -159,7 +159,7 @@ export default function WorkplacesPage() {
                 <Button
                   variant="outline"
                   size="sm"
-                  onClick={() => handleDeleteWorkplace(workplace.id)}
+                  onClick={() => handleDeleteWorkplace(workplace._id)}
                   className="mr-2"
                 >
                   حذف

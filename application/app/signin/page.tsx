@@ -1,26 +1,29 @@
-"use client"
+"use client";
 
-import { useState } from "react"
-import { useRouter } from "next/navigation"
-import { Button } from "@/components/ui/button"
-import { Input } from "@/components/ui/input"
-import { useAuth } from "@/contexts/AuthContext"
-import Image from "next/image"
+import { useState } from "react";
+import { useRouter } from "next/navigation";
+import { Button } from "@/components/ui/button";
+import { Input } from "@/components/ui/input";
+import { useAuth } from "@/contexts/AuthContext";
+import Image from "next/image";
 
 export default function SignInPage() {
-  const [email, setEmail] = useState("")
-  const [password, setPassword] = useState("")
-  const router = useRouter()
-  const { signIn } = useAuth()
+  const [email, setEmail] = useState<string>("");
+  const [password, setPassword] = useState<string>("");
+  const [error, setError] = useState<string | null>(null);
+  const router = useRouter();
+  const { signIn } = useAuth();
 
-  const handleSubmit = (e: React.FormEvent) => {
-    e.preventDefault()
-    if (signIn(email, password)) {
-      router.push("/dashboard")
-    } else {
-      alert("Invalid credentials")
+  const handleSubmit = async (e: React.FormEvent) => {
+    e.preventDefault();
+    setError(null);
+    try {
+      await signIn(email, password);
+      router.push("/dashboard");
+    } catch (err: any) {
+      setError(err.message);
     }
-  }
+  };
 
   return (
     <div
@@ -41,7 +44,14 @@ export default function SignInPage() {
             className="rounded-full"
           />
         </div>
-        <h2 className="text-3xl font-bold text-center text-white mb-6">تسجيل الدخول</h2>
+        <h2 className="text-3xl font-bold text-center text-white mb-6">
+          تسجيل الدخول
+        </h2>
+        {error && (
+          <p style={{ color: "red", textAlign: "center", marginBottom: "1rem" }}>
+            {error}
+          </p>
+        )}
         <form onSubmit={handleSubmit} className="space-y-6">
           <div>
             <Input
@@ -74,6 +84,5 @@ export default function SignInPage() {
         </form>
       </div>
     </div>
-  )
+  );
 }
-

@@ -36,9 +36,9 @@ export function EmployeeSelector({
   jobGrades,
 }: EmployeeSelectorProps) {
   const [isAddingEmployee, setIsAddingEmployee] = useState(false)
-
+console.log(employees)
   const employeeOptions = employees.map((employee) => ({
-    value: employee.id,
+    value: employee._id,
     label: (
       <div className="flex items-center justify-between w-full">
         <span>{employee.name}</span>

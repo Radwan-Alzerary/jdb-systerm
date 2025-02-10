@@ -54,8 +54,8 @@ export default function DashboardPage() {
 
   const employeeStats = calculateEmployeeStats(employees)
   const employeeTypeData = [
-    { name: "دوام كامل", value: employeeStats.fullTimeEmployees },
-    { name: "دوام جزئي", value: employeeStats.partTimeEmployees },
+    { name: "ملاك", value: employeeStats.fullTimeEmployees },
+    { name: "منسب", value: employeeStats.partTimeEmployees },
     { name: "عقد", value: employeeStats.contractEmployees },
   ]
 
@@ -63,8 +63,8 @@ export default function DashboardPage() {
   const collegeEmployeeData = colleges.map((college) => ({
     name: college.name,
     employees:
-      groupedDepartments[college.id]?.reduce(
-        (sum, dept) => sum + employees.filter((e) => e.departmentId === dept.id).length,
+      groupedDepartments[college._id]?.reduce(
+        (sum, dept) => sum + employees.filter((e) => e.departmentId === dept._id).length,
         0,
       ) || 0,
   }))
@@ -72,7 +72,7 @@ export default function DashboardPage() {
   const groupedEmployees = groupEmployeesByDepartment(employees, departments)
   const departmentEmployeeData = departments.map((department) => ({
     name: department.name,
-    employees: groupedEmployees[department.id]?.length || 0,
+    employees: groupedEmployees[department._id]?.length || 0,
   }))
 
   const COLORS = ["#0088FE", "#00C49F", "#FFBB28", "#FF8042", "#8884D8", "#82CA9D"]
@@ -89,7 +89,7 @@ export default function DashboardPage() {
         <div className="grid grid-cols-1 md:grid-cols-3 gap-4 mb-8">
           <Card>
             <CardHeader className="flex flex-row items-center justify-between space-y-0 pb-2">
-              <CardTitle className="text-sm font-medium">إجمالي الموظفين</CardTitle>
+              <CardTitle className="text-sm font-medium">عدد الموظفين</CardTitle>
             </CardHeader>
             <CardContent>
               <div className="text-2xl font-bold">{employees.length}</div>
@@ -97,7 +97,7 @@ export default function DashboardPage() {
           </Card>
           <Card>
             <CardHeader className="flex flex-row items-center justify-between space-y-0 pb-2">
-              <CardTitle className="text-sm font-medium">إجمالي الكليات</CardTitle>
+              <CardTitle className="text-sm font-medium">عدد الكليات</CardTitle>
             </CardHeader>
             <CardContent>
               <div className="text-2xl font-bold">{colleges.length}</div>
@@ -105,7 +105,7 @@ export default function DashboardPage() {
           </Card>
           <Card>
             <CardHeader className="flex flex-row items-center justify-between space-y-0 pb-2">
-              <CardTitle className="text-sm font-medium">إجمالي الأقسام</CardTitle>
+              <CardTitle className="text-sm font-medium">عدد الأقسام</CardTitle>
             </CardHeader>
             <CardContent>
               <div className="text-2xl font-bold">{departments.length}</div>
@@ -116,7 +116,7 @@ export default function DashboardPage() {
         <div className="grid grid-cols-1 md:grid-cols-2 gap-8 mb-8">
           <Card>
             <CardHeader>
-              <CardTitle>أنواع الموظفين</CardTitle>
+              <CardTitle>حالة الموظف</CardTitle>
             </CardHeader>
             <CardContent>
               <ResponsiveContainer width="100%" height={300}>
@@ -198,16 +198,16 @@ export default function DashboardPage() {
 
           <Card>
             <CardHeader>
-              <CardTitle>توزيع أنواع الموظفين حسب الكلية</CardTitle>
+              <CardTitle>توزيع حالة الموظف حسب الكلية</CardTitle>
             </CardHeader>
             <CardContent>
               <ResponsiveContainer width="100%" height={300}>
                 <BarChart
                   data={colleges.map((college) => ({
                     name: college.name,
-                    "دوام كامل": employees.filter((e) => e.collegeId === college.id && e.type === "Full-time").length,
-                    "دوام جزئي": employees.filter((e) => e.collegeId === college.id && e.type === "Part-time").length,
-                    عقد: employees.filter((e) => e.collegeId === college.id && e.type === "Contract").length,
+                    "منسب": employees.filter((e) => e.collegeId === college._id && e.type === "Full-time").length,
+                    "ملاك": employees.filter((e) => e.collegeId === college._id && e.type === "Part-time").length,
+                    عقد: employees.filter((e) => e.collegeId === college._id && e.type === "Contract").length,
                   }))}
                 >
                   <CartesianGrid strokeDasharray="3 3" />
@@ -215,8 +215,8 @@ export default function DashboardPage() {
                   <YAxis />
                   <Tooltip />
                   <Legend />
-                  <Bar dataKey="دوام كامل" stackId="a" fill="#8884d8" />
-                  <Bar dataKey="دوام جزئي" stackId="a" fill="#82ca9d" />
+                  <Bar dataKey="منسب" stackId="a" fill="#8884d8" />
+                  <Bar dataKey="ملاك" stackId="a" fill="#82ca9d" />
                   <Bar dataKey="عقد" stackId="a" fill="#ffc658" />
                 </BarChart>
               </ResponsiveContainer>
@@ -230,8 +230,8 @@ export default function DashboardPage() {
           <CardContent>
             <div className="space-y-4">
               {departments.map((department) => {
-                const requirement = departmentRequirements.find((req) => req.departmentId === department.id)
-                const currentEmployees = employees.filter((e) => e.departmentId === department.id).length
+                const requirement = departmentRequirements.find((req) => req.departmentId === department._id)
+                const currentEmployees = employees.filter((e) => e.departmentId === department._id).length
                 const requiredEmployees = requirement
                   ? requirement.administrative.reduce((sum, req) => sum + req.numberOfEmployees, 0) +
                     requirement.teaching.reduce((sum, req) => sum + req.numberOfEmployees, 0) +
@@ -240,7 +240,7 @@ export default function DashboardPage() {
                 const fulfillmentPercentage = requiredEmployees > 0 ? (currentEmployees / requiredEmployees) * 100 : 100
 
                 return (
-                  <div key={department.id}>
+                  <div key={department._id}>
                     <div className="flex justify-between items-center mb-1">
                       <span className="font-medium">{department.name}</span>
                       <span className="text-sm">

@@ -15,11 +15,11 @@ export default function EmployeeRequirements() {
   const [selectedCategory, setSelectedCategory] = useState<EmployeeCategory | ''>('');
 
   const departments = selectedCollege 
-    ? colleges.find(c => c.id === selectedCollege)?.departments || []
+    ? colleges.find(c => c._id === selectedCollege)?.departments || []
     : [];
 
   const employees = selectedDepartment && selectedCategory
-    ? departments.find(d => d.id === selectedDepartment)?.employees[selectedCategory as EmployeeCategory] || []
+    ? departments.find(d => d._id === selectedDepartment)?.employees[selectedCategory as EmployeeCategory] || []
     : [];
 
   return (
@@ -35,7 +35,7 @@ export default function EmployeeRequirements() {
         >
           <option value="">Select a college</option>
           {colleges.map((college) => (
-            <option key={college.id} value={college.id}>{college.name}</option>
+            <option key={college._id} value={college._id}>{college.name}</option>
           ))}
         </select>
       </div>
@@ -50,7 +50,7 @@ export default function EmployeeRequirements() {
         >
           <option value="">Select a department</option>
           {departments.map((department) => (
-            <option key={department.id} value={department.id}>{department.name}</option>
+            <option key={department._id} value={department._id}>{department.name}</option>
           ))}
         </select>
       </div>
@@ -73,7 +73,7 @@ export default function EmployeeRequirements() {
       <div className="mt-8">
         <h2 className="text-2xl font-bold mb-4">Employees:</h2>
         {employees.map((employee) => (
-          <div key={employee.id} className="border p-4 rounded mb-4">
+          <div key={employee._id} className="border p-4 rounded mb-4">
             <h3 className="font-bold">{employee.name}</h3>
             <p>Type: {employee.type}</p>
             <p>Certificate: {employee.certificate}</p>

@@ -61,7 +61,7 @@ export function CrudPage<T extends { id: string; name: string }>({ title, entity
     const response = await fetch(apiEndpoint, {
       method: 'PUT',
       headers: { 'Content-Type': 'application/json' },
-      body: JSON.stringify({ ...formData, id: editingItem.id }),
+      body: JSON.stringify({ ...formData, id: editingItem._id }),
     })
     if (response.ok) {
       fetchItems()
@@ -125,7 +125,7 @@ export function CrudPage<T extends { id: string; name: string }>({ title, entity
           </TableHeader>
           <TableBody>
             {items.map(item => (
-              <TableRow key={item.id}>
+              <TableRow key={item._id}>
                 <TableCell>{item.name}</TableCell>
                 <TableCell className="text-right">
                   <Dialog>
@@ -144,7 +144,7 @@ export function CrudPage<T extends { id: string; name: string }>({ title, entity
                       <Form onSubmit={handleUpdate} initialData={{ name: item.name }} />
                     </DialogContent>
                   </Dialog>
-                  <Button variant="ghost" size="sm" onClick={() => handleDelete(item.id)}>Delete</Button>
+                  <Button variant="ghost" size="sm" onClick={() => handleDelete(item._id)}>Delete</Button>
                 </TableCell>
               </TableRow>
             ))}

@@ -18,6 +18,7 @@ const EmployeeSchema = new Schema({
   assignmentEntity: { type: String },
   assignedFrom: { type: String },
   assignedTo: { type: String },
-});
+  createdBy: { type: String }  // Admin ID who created this record
+}, { timestamps: true });
 
 module.exports = mongoose.model('Employee', EmployeeSchema);

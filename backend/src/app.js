@@ -1,6 +1,10 @@
 const express = require('express');
 const mongoose = require('mongoose');
 const bodyParser = require('body-parser');
+const flash = require("connect-flash");
+const compression = require("compression");
+const morgan = require("morgan");
+
 
 // Import routes
 const employeeRoutes = require('./routes/employee.routes');
@@ -16,16 +20,23 @@ const subspecialtyRoutes = require('./routes/subspecialty.routes');
 const positionRoutes = require('./routes/position.routes');
 const jobGradeRoutes = require('./routes/jobGrade.routes');
 const employeeSuggestionRoutes = require('./routes/employeeSuggestion.routes');
+const authRoutes = require('./routes/auth.routes');
+// const adminRoutes = require('./routes/admin.routes');
 
 const app = express();
 const cors = require('cors');
 // ...
 app.use(cors()); // Allow all origins (for development)
+app.use(compression());
+app.use(morgan("dev"));
 
 // Middleware
 app.use(bodyParser.json());
 
 // Set up routes
+app.use('/api/auth', authRoutes);
+app.use('/api/admins', adminRoutes);
+
 app.use('/api/employees', employeeRoutes);
 app.use('/api/departments', departmentRoutes);
 app.use('/api/colleges', collegeRoutes);

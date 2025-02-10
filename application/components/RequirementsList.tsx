@@ -25,7 +25,7 @@ export function RequirementsList({
   const renderCategoryRequirements = (category: CategoryRequirement[]) => (
     <ScrollArea className="h-[300px]">
       {category.map((req, index) => (
-        <Card key={req.id} className="mb-4">
+        <Card key={req._id} className="mb-4">
           <CardHeader>
             <CardTitle className="text-sm">المتطلب {index + 1}</CardTitle>
           </CardHeader>
@@ -36,7 +36,7 @@ export function RequirementsList({
                 الشهادات:
                 <ul className="list-circle pr-5">
                   {req.requiredCertificateIds.map((id) => (
-                    <li key={id}>{certificates.find((c) => c.id === id)?.name}</li>
+                    <li key={id}>{certificates.find((c) => c._id === id)?.name}</li>
                   ))}
                 </ul>
               </li>
@@ -44,7 +44,7 @@ export function RequirementsList({
                 التخصصات العامة:
                 <ul className="list-circle pr-5">
                   {req.requiredGeneralSpecializationIds.map((id) => (
-                    <li key={id}>{generalSpecializations.find((gs) => gs.id === id)?.name}</li>
+                    <li key={id}>{generalSpecializations.find((gs) => gs._id === id)?.name}</li>
                   ))}
                 </ul>
               </li>
@@ -52,7 +52,7 @@ export function RequirementsList({
                 التخصصات الدقيقة:
                 <ul className="list-circle pr-5">
                   {req.requiredSubspecialtyIds.map((id) => (
-                    <li key={id}>{subspecialties.find((sub) => sub.id === id)?.name}</li>
+                    <li key={id}>{subspecialties.find((sub) => sub._id === id)?.name}</li>
                   ))}
                 </ul>
               </li>

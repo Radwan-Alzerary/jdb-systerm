@@ -1,62 +1,82 @@
-"use client"
+"use client";
 
-import type React from "react"
-import { createContext, useContext, useState, useEffect } from "react"
+import React, { createContext, useContext, useState, useEffect } from "react";
 
-type User = {
-  id: string
-  name: string
-  email: string
-  role: "full" | "college" | "department"
-}
+export type User = {
+  id: string;
+  name: string;
+  email: string;
+  role: "full" | "college" | "department";
+};
 
 type AuthContextType = {
-  user: User | null
-  signIn: (email: string, password: string) => boolean
-  signOut: () => void
-}
+  user: User | null;
+  token: string | null;
+  signIn: (email: string, password: string) => Promise<void>;
+  signOut: () => void;
+};
 
-const AuthContext = createContext<AuthContextType | undefined>(undefined)
+const AuthContext = createContext<AuthContextType | undefined>(undefined);
 
-export const useAuth = () => {
-  const context = useContext(AuthContext)
+export const useAuth = (): AuthContextType => {
+  const context = useContext(AuthContext);
   if (!context) {
-    throw new Error("useAuth must be used within an AuthProvider")
+    throw new Error("useAuth must be used within an AuthProvider");
   }
-  return context
-}
+  return context;
+};
 
-export const AuthProvider: React.FC<{ children: React.ReactNode }> = ({ children }) => {
-  const [user, setUser] = useState<User | null>(null)
+export const AuthProvider: React.FC<{ children: React.ReactNode }> = ({
+  children,
+}) => {
+  const [user, setUser] = useState<User | null>(null);
+  const [token, setToken] = useState<string | null>(null);
 
   useEffect(() => {
-    const storedUser = localStorage.getItem("user")
-    if (storedUser) {
-      setUser(JSON.parse(storedUser))
+    const storedUser = localStorage.getItem("user");
+    const storedToken = localStorage.getItem("token");
+    if (storedUser && storedToken) {
+      setUser(JSON.parse(storedUser));
+      setToken(storedToken);
     }
-  }, [])
+  }, []);
 
-  const signIn = (email: string, password: string) => {
-    // Dummy authentication logic
-    if (email === "admin@example.com" && password === "password") {
-      const user: User = {
-        id: "1",
-        name: "Admin User",
-        email: "admin@example.com",
-        role: "full",
+  const signIn = async (email: string, password: string) => {
+    try {
+      const response = await fetch("/api/auth/login", {
+        method: "POST",
+        headers: {
+          "Content-Type": "application/json",
+        },
+        body: JSON.stringify({ email, password }),
+      });
+      if (!response.ok) {
+        const data = await response.json();
+        throw new Error(data.message || "Login failed");
       }
-      setUser(user)
-      localStorage.setItem("user", JSON.stringify(user))
-      return true
+      const data = await response.json();
+      console.log(data)
+      // Expected response format: { token: string, admin: User }
+      const { token: receivedToken, admin } = data;
+      setUser(admin);
+      setToken(receivedToken);
+      localStorage.setItem("user", JSON.stringify(admin));
+      localStorage.setItem("token", receivedToken);
+    } catch (error: any) {
+      throw new Error(error.message);
     }
-    return false
-  }
+  };
 
   const signOut = () => {
-    setUser(null)
-    localStorage.removeItem("user")
-  }
+    setUser(null);
+    setToken(null);
+    localStorage.removeItem("user");
+    localStorage.removeItem("token");
+  };
 
-  return <AuthContext.Provider value={{ user, signIn, signOut }}>{children}</AuthContext.Provider>
-}
-
+  return (
+    <AuthContext.Provider value={{ user, token, signIn, signOut }}>
+      {children}
+    </AuthContext.Provider>
+  );
+};

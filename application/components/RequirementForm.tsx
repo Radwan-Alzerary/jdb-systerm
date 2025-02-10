@@ -44,7 +44,7 @@ export function RequirementForm({
   })
 
   const [collegeId, setCollegeId] = useState<string>(
-    initialData ? departments.find((d) => d.id === initialData.departmentId)?.collegeId || "" : "",
+    initialData ? departments.find((d) => d._id === initialData.departmentId)?.collegeId || "" : "",
   )
 
   const handleSubmit = (e: React.FormEvent) => {
@@ -116,7 +116,7 @@ export function RequirementForm({
             </SelectTrigger>
             <SelectContent>
               {colleges.map((college) => (
-                <SelectItem key={college.id} value={college.id}>
+                <SelectItem key={college._id} value={college._id}>
                   {college.name}
                 </SelectItem>
               ))}
@@ -137,7 +137,7 @@ export function RequirementForm({
               {departments
                 .filter((dept) => dept.collegeId === collegeId)
                 .map((dept) => (
-                  <SelectItem key={dept.id} value={dept.id}>
+                  <SelectItem key={dept._id} value={dept._id}>
                     {dept.name}
                   </SelectItem>
                 ))}
@@ -155,7 +155,7 @@ export function RequirementForm({
         {(["administrative", "teaching", "technician"] as const).map((category) => (
           <TabsContent key={category} value={category}>
             {formData[category].map((req, index) => (
-              <Card key={req.id} className="mb-4">
+              <Card key={req._id} className="mb-4">
                 <CardHeader>
                   <CardTitle className="text-lg">المتطلب {index + 1}</CardTitle>
                 </CardHeader>
@@ -174,7 +174,7 @@ export function RequirementForm({
                   </div>
                   <CheckboxGroup
                     label="الشهادات المطلوبة"
-                    options={certificates.map((cert) => ({ label: cert.name, value: cert.id }))}
+                    options={certificates.map((cert) => ({ label: cert.name, value: cert._id }))}
                     selected={req.requiredCertificateIds}
                     onChange={(selected) =>
                       updateCategoryRequirement(category, index, "requiredCertificateIds", selected)
@@ -182,7 +182,7 @@ export function RequirementForm({
                   />
                   <CheckboxGroup
                     label="التخصصات العامة المطلوبة"
-                    options={generalSpecializations.map((gs) => ({ label: gs.name, value: gs.id }))}
+                    options={generalSpecializations.map((gs) => ({ label: gs.name, value: gs._id }))}
                     selected={req.requiredGeneralSpecializationIds}
                     onChange={(selected) =>
                       updateCategoryRequirement(category, index, "requiredGeneralSpecializationIds", selected)
@@ -190,7 +190,7 @@ export function RequirementForm({
                   />
                   <CheckboxGroup
                     label="التخصصات الدقيقة المطلوبة"
-                    options={subspecialties.map((sub) => ({ label: sub.name, value: sub.id }))}
+                    options={subspecialties.map((sub) => ({ label: sub.name, value: sub._id }))}
                     selected={req.requiredSubspecialtyIds}
                     onChange={(selected) =>
                       updateCategoryRequirement(category, index, "requiredSubspecialtyIds", selected)
