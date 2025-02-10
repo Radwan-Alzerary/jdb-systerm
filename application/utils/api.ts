@@ -53,7 +53,7 @@ const dummyEmployeeSuggestions: EmployeeSuggestion[] = [
 ];
 
 // Read from a standard Node environment variable (not Next.js):
-const API_URL = process.env.API_URL || "http://localhost:5000/api";
+const API_URL = process.env.API_URL || "https://jdp.ntu.edu.iq/api";
 
 /**
  * Helper function to build the auth headers.
