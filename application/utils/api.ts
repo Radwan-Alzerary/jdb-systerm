@@ -44,7 +44,7 @@ const dummyEmployeeSuggestions: EmployeeSuggestion[] = [
 // Use the NEXT_PUBLIC_API_URL environment variable if available,
 // otherwise fall back to "http://localhost:5000/api"
 // const API_URL = process.env.NEXT_PUBLIC_API_URL || "http://localhost:5000/api";
-const API_URL = process.env.NEXT_PUBLIC_API_URL || "http://10.13.35.239:5000/api";
+const API_URL = process.env.NEXT_PUBLIC_API_URL || "http://jdp.ntu.edu.iq/api";
 
 /**
  * Helper function to get the authentication headers.
