@@ -31,6 +31,7 @@ const corsOptions = {
     /^(http:\/\/.+:8085)$/,
     /^(http:\/\/.+:80)$/,
     'http://jdp.ntu.edu.iq', // Exactly matching the client origin
+    'https://jdp.ntu.edu.iq', // Exactly matching the client origin
     /^(http:\/\/.+:3000)$/,
     /^(http:\/\/.+:5000)$/,
     /^(http:\/\/.+:3001)$/,
