@@ -4,42 +4,7 @@ const bodyParser = require('body-parser');
 const flash = require("connect-flash");
 const compression = require("compression");
 const morgan = require("morgan");
-const cors = require('cors');
 
-// Define the allowed origins
-const allowedOrigins = [
-  'http://localhost:3000',
-  'http://localhost:5000',
-  'http://localhost',          // this covers port 80 (default for http)
-  'http://jdp.ntu.edu.iq',
-  'http://10.13.35.239:80'
-];
-
-// Create a custom CORS options object
-const corsOptions = {
-  origin: (origin, callback) => {
-    // Allow requests with no origin (like mobile apps or curl requests)
-    if (!origin) return callback(null, true);
-    
-    // Check if the incoming origin is in the allowed list
-    if (allowedOrigins.indexOf(origin) !== -1) {
-      callback(null, true);
-    } else {
-      callback(new Error('CORS not allowed for this origin: ' + origin));
-    }
-  },
-  optionsSuccessStatus: 200, // some legacy browsers (IE11, various SmartTVs) choke on 204
-};
-
-const app = express();
-
-// Use the custom CORS middleware
-app.use(cors(corsOptions));
-
-// Additional middleware
-app.use(compression());
-app.use(morgan("dev"));
-app.use(bodyParser.json());
 
 // Import routes
 const employeeRoutes = require('./routes/employee.routes');
@@ -56,6 +21,31 @@ const positionRoutes = require('./routes/position.routes');
 const jobGradeRoutes = require('./routes/jobGrade.routes');
 const employeeSuggestionRoutes = require('./routes/employeeSuggestion.routes');
 const authRoutes = require('./routes/auth.routes');
+// const adminRoutes = require('./routes/admin.routes');
+
+const app = express();
+const cors = require('cors');
+const corsOptions = {
+  origin: [
+    /^(http:\/\/.+:8080)$/,
+    /^(http:\/\/.+:8085)$/,
+    /^(http:\/\/.+:80)$/,
+    /^(http:\/\/.+:3000)$/,
+    /^(http:\/\/.+:5000)$/,
+    /^(http:\/\/.+:3001)$/,
+    /^(http:\/\/.+:3100)$/,
+  ],
+  credentials: true,
+  "Access-Control-Allow-Credentials": true,
+};
+
+app.use(cors(corsOptions));
+
+app.use(compression());
+app.use(morgan("dev"));
+
+// Middleware
+app.use(bodyParser.json());
 
 // Set up routes
 app.use('/api/auth', authRoutes);
@@ -64,7 +54,7 @@ app.use('/api/admins', adminRoutes);
 app.use('/api/employees', employeeRoutes);
 app.use('/api/departments', departmentRoutes);
 app.use('/api/colleges', collegeRoutes);
-// Note: Avoid duplicate mounting of the same route (e.g., adminRoutes is added twice)
+app.use('/api/admins', adminRoutes);
 app.use('/api/category-requirements', categoryRequirementRoutes);
 app.use('/api/department-requirements', departmentRequirementRoutes);
 app.use('/api/workplaces', workplaceRoutes);

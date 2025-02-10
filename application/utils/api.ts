@@ -61,11 +61,17 @@ const getAuthHeaders = (): HeadersInit => {
   return headers;
 };
 
+// Define a default fetch options object that adds CORS mode to every request.
+const defaultFetchOptions: RequestInit = {
+  mode: "cors",
+};
+
 // ----------------------
 // Employee functions
 // ----------------------
 export const fetchEmployees = async (): Promise<Employee[]> => {
   const response = await fetch(`${API_URL}/employees`, {
+    ...defaultFetchOptions,
     headers: getAuthHeaders(),
   });
   if (!response.ok) throw new Error("Failed to fetch employees");
@@ -74,6 +80,7 @@ export const fetchEmployees = async (): Promise<Employee[]> => {
 
 export const createEmployee = async (employee: Omit<Employee, "id">): Promise<Employee> => {
   const response = await fetch(`${API_URL}/employees`, {
+    ...defaultFetchOptions,
     method: "POST",
     headers: getAuthHeaders(),
     body: JSON.stringify(employee),
@@ -84,6 +91,7 @@ export const createEmployee = async (employee: Omit<Employee, "id">): Promise<Em
 
 export const updateEmployee = async (employee: Employee): Promise<Employee> => {
   const response = await fetch(`${API_URL}/employees/${employee._id}`, {
+    ...defaultFetchOptions,
     method: "PUT",
     headers: getAuthHeaders(),
     body: JSON.stringify(employee),
@@ -94,6 +102,7 @@ export const updateEmployee = async (employee: Employee): Promise<Employee> => {
 
 export const deleteEmployee = async (id: string): Promise<void> => {
   const response = await fetch(`${API_URL}/employees/${id}`, {
+    ...defaultFetchOptions,
     method: "DELETE",
     headers: getAuthHeaders(),
   });
@@ -105,6 +114,7 @@ export const deleteEmployee = async (id: string): Promise<void> => {
 // ----------------------
 export const fetchDepartments = async (): Promise<Department[]> => {
   const response = await fetch(`${API_URL}/departments`, {
+    ...defaultFetchOptions,
     headers: getAuthHeaders(),
   });
   if (!response.ok) throw new Error("Failed to fetch departments");
@@ -113,6 +123,7 @@ export const fetchDepartments = async (): Promise<Department[]> => {
 
 export const createDepartment = async (department: Omit<Department, "id">): Promise<Department> => {
   const response = await fetch(`${API_URL}/departments`, {
+    ...defaultFetchOptions,
     method: "POST",
     headers: getAuthHeaders(),
     body: JSON.stringify(department),
@@ -123,6 +134,7 @@ export const createDepartment = async (department: Omit<Department, "id">): Prom
 
 export const updateDepartment = async (department: Department): Promise<Department> => {
   const response = await fetch(`${API_URL}/departments/${department._id}`, {
+    ...defaultFetchOptions,
     method: "PUT",
     headers: getAuthHeaders(),
     body: JSON.stringify(department),
@@ -133,6 +145,7 @@ export const updateDepartment = async (department: Department): Promise<Departme
 
 export const deleteDepartment = async (id: string): Promise<void> => {
   const response = await fetch(`${API_URL}/departments/${id}`, {
+    ...defaultFetchOptions,
     method: "DELETE",
     headers: getAuthHeaders(),
   });
@@ -144,6 +157,7 @@ export const deleteDepartment = async (id: string): Promise<void> => {
 // ----------------------
 export const fetchColleges = async (): Promise<College[]> => {
   const response = await fetch(`${API_URL}/colleges`, {
+    ...defaultFetchOptions,
     headers: getAuthHeaders(),
   });
   if (!response.ok) throw new Error("Failed to fetch colleges");
@@ -152,6 +166,7 @@ export const fetchColleges = async (): Promise<College[]> => {
 
 export const createCollege = async (college: Omit<College, "id">): Promise<College> => {
   const response = await fetch(`${API_URL}/colleges`, {
+    ...defaultFetchOptions,
     method: "POST",
     headers: getAuthHeaders(),
     body: JSON.stringify(college),
@@ -162,6 +177,7 @@ export const createCollege = async (college: Omit<College, "id">): Promise<Colle
 
 export const updateCollege = async (college: College): Promise<College> => {
   const response = await fetch(`${API_URL}/colleges/${college._id}`, {
+    ...defaultFetchOptions,
     method: "PUT",
     headers: getAuthHeaders(),
     body: JSON.stringify(college),
@@ -172,6 +188,7 @@ export const updateCollege = async (college: College): Promise<College> => {
 
 export const deleteCollege = async (id: string): Promise<void> => {
   const response = await fetch(`${API_URL}/colleges/${id}`, {
+    ...defaultFetchOptions,
     method: "DELETE",
     headers: getAuthHeaders(),
   });
@@ -183,6 +200,7 @@ export const deleteCollege = async (id: string): Promise<void> => {
 // ----------------------
 export const fetchCertificates = async (): Promise<Certificate[]> => {
   const response = await fetch(`${API_URL}/certificates`, {
+    ...defaultFetchOptions,
     headers: getAuthHeaders(),
   });
   if (!response.ok) throw new Error("Failed to fetch certificates");
@@ -191,6 +209,7 @@ export const fetchCertificates = async (): Promise<Certificate[]> => {
 
 export const createCertificate = async (certificate: Omit<Certificate, "id">): Promise<Certificate> => {
   const response = await fetch(`${API_URL}/certificates`, {
+    ...defaultFetchOptions,
     method: "POST",
     headers: getAuthHeaders(),
     body: JSON.stringify(certificate),
@@ -201,6 +220,7 @@ export const createCertificate = async (certificate: Omit<Certificate, "id">): P
 
 export const updateCertificate = async (certificate: Certificate): Promise<Certificate> => {
   const response = await fetch(`${API_URL}/certificates/${certificate._id}`, {
+    ...defaultFetchOptions,
     method: "PUT",
     headers: getAuthHeaders(),
     body: JSON.stringify(certificate),
@@ -211,6 +231,7 @@ export const updateCertificate = async (certificate: Certificate): Promise<Certi
 
 export const deleteCertificate = async (id: string): Promise<void> => {
   const response = await fetch(`${API_URL}/certificates/${id}`, {
+    ...defaultFetchOptions,
     method: "DELETE",
     headers: getAuthHeaders(),
   });
@@ -222,6 +243,7 @@ export const deleteCertificate = async (id: string): Promise<void> => {
 // -------------------------------
 export const fetchGeneralSpecializations = async (): Promise<GeneralSpecialization[]> => {
   const response = await fetch(`${API_URL}/general-specializations`, {
+    ...defaultFetchOptions,
     headers: getAuthHeaders(),
   });
   if (!response.ok) throw new Error("Failed to fetch general specializations");
@@ -232,6 +254,7 @@ export const createGeneralSpecialization = async (
   specialization: Omit<GeneralSpecialization, "id">
 ): Promise<GeneralSpecialization> => {
   const response = await fetch(`${API_URL}/general-specializations`, {
+    ...defaultFetchOptions,
     method: "POST",
     headers: getAuthHeaders(),
     body: JSON.stringify(specialization),
@@ -244,6 +267,7 @@ export const updateGeneralSpecialization = async (
   specialization: GeneralSpecialization
 ): Promise<GeneralSpecialization> => {
   const response = await fetch(`${API_URL}/general-specializations/${specialization._id}`, {
+    ...defaultFetchOptions,
     method: "PUT",
     headers: getAuthHeaders(),
     body: JSON.stringify(specialization),
@@ -254,6 +278,7 @@ export const updateGeneralSpecialization = async (
 
 export const deleteGeneralSpecialization = async (id: string): Promise<void> => {
   const response = await fetch(`${API_URL}/general-specializations/${id}`, {
+    ...defaultFetchOptions,
     method: "DELETE",
     headers: getAuthHeaders(),
   });
@@ -265,6 +290,7 @@ export const deleteGeneralSpecialization = async (id: string): Promise<void> => 
 // ----------------------
 export const fetchSubspecialties = async (): Promise<Subspecialty[]> => {
   const response = await fetch(`${API_URL}/subspecialties`, {
+    ...defaultFetchOptions,
     headers: getAuthHeaders(),
   });
   if (!response.ok) throw new Error("Failed to fetch subspecialties");
@@ -275,6 +301,7 @@ export const createSubspecialty = async (
   subspecialty: Omit<Subspecialty, "id">
 ): Promise<Subspecialty> => {
   const response = await fetch(`${API_URL}/subspecialties`, {
+    ...defaultFetchOptions,
     method: "POST",
     headers: getAuthHeaders(),
     body: JSON.stringify(subspecialty),
@@ -285,6 +312,7 @@ export const createSubspecialty = async (
 
 export const updateSubspecialty = async (subspecialty: Subspecialty): Promise<Subspecialty> => {
   const response = await fetch(`${API_URL}/subspecialties/${subspecialty._id}`, {
+    ...defaultFetchOptions,
     method: "PUT",
     headers: getAuthHeaders(),
     body: JSON.stringify(subspecialty),
@@ -295,6 +323,7 @@ export const updateSubspecialty = async (subspecialty: Subspecialty): Promise<Su
 
 export const deleteSubspecialty = async (id: string): Promise<void> => {
   const response = await fetch(`${API_URL}/subspecialties/${id}`, {
+    ...defaultFetchOptions,
     method: "DELETE",
     headers: getAuthHeaders(),
   });
@@ -306,6 +335,7 @@ export const deleteSubspecialty = async (id: string): Promise<void> => {
 // ----------------------
 export const fetchPositions = async (): Promise<Position[]> => {
   const response = await fetch(`${API_URL}/positions`, {
+    ...defaultFetchOptions,
     headers: getAuthHeaders(),
   });
   if (!response.ok) throw new Error("Failed to fetch positions");
@@ -314,6 +344,7 @@ export const fetchPositions = async (): Promise<Position[]> => {
 
 export const createPosition = async (position: Omit<Position, "id">): Promise<Position> => {
   const response = await fetch(`${API_URL}/positions`, {
+    ...defaultFetchOptions,
     method: "POST",
     headers: getAuthHeaders(),
     body: JSON.stringify(position),
@@ -324,6 +355,7 @@ export const createPosition = async (position: Omit<Position, "id">): Promise<Po
 
 export const updatePosition = async (position: Position): Promise<Position> => {
   const response = await fetch(`${API_URL}/positions/${position._id}`, {
+    ...defaultFetchOptions,
     method: "PUT",
     headers: getAuthHeaders(),
     body: JSON.stringify(position),
@@ -334,6 +366,7 @@ export const updatePosition = async (position: Position): Promise<Position> => {
 
 export const deletePosition = async (id: string): Promise<void> => {
   const response = await fetch(`${API_URL}/positions/${id}`, {
+    ...defaultFetchOptions,
     method: "DELETE",
     headers: getAuthHeaders(),
   });
@@ -345,6 +378,7 @@ export const deletePosition = async (id: string): Promise<void> => {
 // ----------------------
 export const fetchWorkplaces = async (): Promise<Workplace[]> => {
   const response = await fetch(`${API_URL}/workplaces`, {
+    ...defaultFetchOptions,
     headers: getAuthHeaders(),
   });
   if (!response.ok) throw new Error("Failed to fetch workplaces");
@@ -353,6 +387,7 @@ export const fetchWorkplaces = async (): Promise<Workplace[]> => {
 
 export const createWorkplace = async (workplace: Omit<Workplace, "id">): Promise<Workplace> => {
   const response = await fetch(`${API_URL}/workplaces`, {
+    ...defaultFetchOptions,
     method: "POST",
     headers: getAuthHeaders(),
     body: JSON.stringify(workplace),
@@ -363,6 +398,7 @@ export const createWorkplace = async (workplace: Omit<Workplace, "id">): Promise
 
 export const updateWorkplace = async (workplace: Workplace): Promise<Workplace> => {
   const response = await fetch(`${API_URL}/workplaces/${workplace._id}`, {
+    ...defaultFetchOptions,
     method: "PUT",
     headers: getAuthHeaders(),
     body: JSON.stringify(workplace),
@@ -373,6 +409,7 @@ export const updateWorkplace = async (workplace: Workplace): Promise<Workplace> 
 
 export const deleteWorkplace = async (id: string): Promise<void> => {
   const response = await fetch(`${API_URL}/workplaces/${id}`, {
+    ...defaultFetchOptions,
     method: "DELETE",
     headers: getAuthHeaders(),
   });
@@ -384,6 +421,7 @@ export const deleteWorkplace = async (id: string): Promise<void> => {
 // ----------------------
 export const fetchDepartmentRequirements = async (): Promise<DepartmentRequirement[]> => {
   const response = await fetch(`${API_URL}/department-requirements`, {
+    ...defaultFetchOptions,
     headers: getAuthHeaders(),
   });
   if (!response.ok) throw new Error("Failed to fetch department requirements");
@@ -394,6 +432,7 @@ export const createDepartmentRequirement = async (
   requirement: Omit<DepartmentRequirement, "id">
 ): Promise<DepartmentRequirement> => {
   const response = await fetch(`${API_URL}/department-requirements`, {
+    ...defaultFetchOptions,
     method: "POST",
     headers: getAuthHeaders(),
     body: JSON.stringify(requirement),
@@ -406,6 +445,7 @@ export const updateDepartmentRequirement = async (
   requirement: DepartmentRequirement
 ): Promise<DepartmentRequirement> => {
   const response = await fetch(`${API_URL}/department-requirements/${requirement._id}`, {
+    ...defaultFetchOptions,
     method: "PUT",
     headers: getAuthHeaders(),
     body: JSON.stringify(requirement),
@@ -416,6 +456,7 @@ export const updateDepartmentRequirement = async (
 
 export const deleteDepartmentRequirement = async (id: string): Promise<void> => {
   const response = await fetch(`${API_URL}/department-requirements/${id}`, {
+    ...defaultFetchOptions,
     method: "DELETE",
     headers: getAuthHeaders(),
   });
@@ -427,6 +468,7 @@ export const deleteDepartmentRequirement = async (id: string): Promise<void> => 
 // ----------------------
 export const fetchAdmins = async (): Promise<Admin[]> => {
   const response = await fetch(`${API_URL}/admins`, {
+    ...defaultFetchOptions,
     headers: getAuthHeaders(),
   });
   if (!response.ok) throw new Error("Failed to fetch admins");
@@ -435,6 +477,7 @@ export const fetchAdmins = async (): Promise<Admin[]> => {
 
 export const createAdmin = async (admin: Omit<Admin, "id">): Promise<Admin> => {
   const response = await fetch(`${API_URL}/admins`, {
+    ...defaultFetchOptions,
     method: "POST",
     headers: getAuthHeaders(),
     body: JSON.stringify(admin),
@@ -444,8 +487,9 @@ export const createAdmin = async (admin: Omit<Admin, "id">): Promise<Admin> => {
 };
 
 export const updateAdmin = async (admin: Admin): Promise<Admin> => {
-  console.log(admin)
+  console.log(admin);
   const response = await fetch(`${API_URL}/admins/${admin._id}`, {
+    ...defaultFetchOptions,
     method: "PUT",
     headers: getAuthHeaders(),
     body: JSON.stringify(admin),
@@ -456,6 +500,7 @@ export const updateAdmin = async (admin: Admin): Promise<Admin> => {
 
 export const deleteAdmin = async (id: string): Promise<void> => {
   const response = await fetch(`${API_URL}/admins/${id}`, {
+    ...defaultFetchOptions,
     method: "DELETE",
     headers: getAuthHeaders(),
   });
@@ -467,6 +512,7 @@ export const deleteAdmin = async (id: string): Promise<void> => {
 // ----------------------
 export const fetchJobGrades = async (): Promise<JobGrade[]> => {
   const response = await fetch(`${API_URL}/job-grades`, {
+    ...defaultFetchOptions,
     headers: getAuthHeaders(),
   });
   if (!response.ok) throw new Error("Failed to fetch job grades");
@@ -475,6 +521,7 @@ export const fetchJobGrades = async (): Promise<JobGrade[]> => {
 
 export const createJobGrade = async (jobGrade: Omit<JobGrade, "id">): Promise<JobGrade> => {
   const response = await fetch(`${API_URL}/job-grades`, {
+    ...defaultFetchOptions,
     method: "POST",
     headers: getAuthHeaders(),
     body: JSON.stringify(jobGrade),
@@ -485,6 +532,7 @@ export const createJobGrade = async (jobGrade: Omit<JobGrade, "id">): Promise<Jo
 
 export const updateJobGrade = async (jobGrade: JobGrade): Promise<JobGrade> => {
   const response = await fetch(`${API_URL}/job-grades/${jobGrade._id}`, {
+    ...defaultFetchOptions,
     method: "PUT",
     headers: getAuthHeaders(),
     body: JSON.stringify(jobGrade),
@@ -495,6 +543,7 @@ export const updateJobGrade = async (jobGrade: JobGrade): Promise<JobGrade> => {
 
 export const deleteJobGrade = async (id: string): Promise<void> => {
   const response = await fetch(`${API_URL}/job-grades/${id}`, {
+    ...defaultFetchOptions,
     method: "DELETE",
     headers: getAuthHeaders(),
   });
