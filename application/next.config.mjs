@@ -26,11 +26,11 @@ const nextConfig = {
     return [
       {
         source: '/api/:path*',
-        destination: 'http://10.13.35.239:5000/api/:path*', // Proxy to Backend
+        destination: 'http://10.13.35.239:5000/api/:path*',
       },
     ]
-  },
-}
+  }
+  }
 
 mergeConfig(nextConfig, userConfig)
 
