@@ -234,7 +234,7 @@ export function EmployeeForm({
               />
             </div>
             <div>
-              <Label htmlFor="type">صنف الموظف</Label>
+              <Label htmlFor="type">حالة الموظف</Label>
               <Select
                 name="type"
                 value={formData.type}
@@ -243,12 +243,12 @@ export function EmployeeForm({
                 }
               >
                 <SelectTrigger>
-                  <SelectValue placeholder="اختر صنف الموظف" />
+                  <SelectValue placeholder="اختر حالة الموظف" />
                 </SelectTrigger>
                 <SelectContent>
-                  <SelectItem value="Full-time">دوام كامل</SelectItem>
-                  <SelectItem value="Part-time">دوام جزئي</SelectItem>
-                  <SelectItem value="Contract">عقد</SelectItem>
+                  <SelectItem value="Full-time">ملاك</SelectItem>
+                  <SelectItem value="Part-time">عقد</SelectItem>
+                  <SelectItem value="Contract">منسب</SelectItem>
                 </SelectContent>
               </Select>
             </div>
