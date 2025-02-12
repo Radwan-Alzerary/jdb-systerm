@@ -169,12 +169,12 @@ export default function EmployeesPage() {
         >
           <DialogTrigger asChild>
             <Button onClick={() => setIsAddingEmployee(true)}>
-              <PlusIcon className="mr-2 h-4 w-4" /> {editingEmployee ? "Edit Employee" : "Add Employee"}
+              <PlusIcon className="mr-2 h-4 w-4" /> {editingEmployee ? "تعديل بيانات الموظف" : "اضافة موظف جديد"}
             </Button>
           </DialogTrigger>
           <DialogContent className="max-w-4xl">
             <DialogHeader>
-              <DialogTitle>{editingEmployee ? "Edit Employee" : "Add New Employee"}</DialogTitle>
+              <DialogTitle>{editingEmployee ? "تعديل بيانات الموظف" : "اضافة موظف جديد"}</DialogTitle>
             </DialogHeader>
             <EmployeeForm
               onSubmit={editingEmployee ? handleUpdate : handleCreate}

@@ -56,7 +56,7 @@ const steps = [
   "المعلومات الشخصية",
   "تفاصيل الوظيفة",
   "التعليم والتخصص",
-  "معلومات إضافية",
+  "معلومات وظيفية",
 ];
 
 export function EmployeeForm({
@@ -252,6 +252,27 @@ export function EmployeeForm({
                 </SelectContent>
               </Select>
             </div>
+            {formData.type === "Contract" && (
+              <>
+                <div>
+                  <Label htmlFor="assignedFrom">منسب من</Label>
+                  <Input
+                    id="assignedFrom"
+                    value={formData.assignedFrom}
+                    onChange={(e) => handleChange("assignedFrom", e.target.value)}
+                  />
+                </div>
+                <div>
+                  <Label htmlFor="assignedTo">منسب الى</Label>
+                  <Input
+                    id="assignedTo"
+                    value={formData.assignedTo}
+                    onChange={(e) => handleChange("assignedTo", e.target.value)}
+                  />
+                </div>
+              </>
+            )}
+
           </>
         );
       case 1:
@@ -424,6 +445,31 @@ export function EmployeeForm({
               </Select>
             </div>
             <div>
+              <Label htmlFor="startDate">تاريخ الحصول على الدرجة الوضيفية</Label>
+              <div className="relative">
+                <Button
+                  variant={"outline"}
+                  className={cn(
+                    "w-full justify-start text-right font-normal",
+                    !formData.startDate && "text-muted-foreground"
+                  )}
+                  onClick={() => {
+                    // For demo, we use the calendar icon button to simulate date selection.
+                    const today = new Date();
+                    handleChange("startDate", today.toISOString());
+                  }}
+                >
+                  <CalendarIcon className="ml-2 h-4 w-4" />
+                  {formData.startDate
+                    ? format(new Date(formData.startDate), "yyyy/MM/dd", {
+                        locale: ar,
+                      })
+                    : "اختر التاريخ"}
+                </Button>
+              </div>
+            </div>
+
+            <div>
               <Label htmlFor="startDate">تاريخ المباشرة</Label>
               <div className="relative">
                 <Button
@@ -447,34 +493,23 @@ export function EmployeeForm({
                 </Button>
               </div>
             </div>
-            <div className="flex items-center space-x-2">
-              <Switch
-                id="isAssigned"
-                checked={formData.isAssigned}
-                onCheckedChange={(checked) => handleChange("isAssigned", checked)}
-              />
-              <Label htmlFor="isAssigned">منسب</Label>
-            </div>
-            {formData.isAssigned && (
-              <>
-                <div>
-                  <Label htmlFor="assignedFrom">منسب من</Label>
-                  <Input
-                    id="assignedFrom"
-                    value={formData.assignedFrom}
-                    onChange={(e) => handleChange("assignedFrom", e.target.value)}
-                  />
-                </div>
-                <div>
-                  <Label htmlFor="assignedTo">منسب الى</Label>
+            <div>
+                  <Label htmlFor="assignedTo">الرقم التعريفي</Label>
                   <Input
                     id="assignedTo"
                     value={formData.assignedTo}
                     onChange={(e) => handleChange("assignedTo", e.target.value)}
                   />
                 </div>
-              </>
-            )}
+
+            {/* <div className="flex items-center space-x-2">
+              <Switch
+                id="isAssigned"
+                checked={formData.isAssigned}
+                onCheckedChange={(checked) => handleChange("isAssigned", checked)}
+              />
+              <Label htmlFor="isAssigned">منسب</Label>
+            </div> */}
             <div className="space-y-2">
               <div className="flex items-center space-x-2">
                 <Switch
