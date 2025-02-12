@@ -144,7 +144,7 @@ export default function JobGradesPage() {
         <TableBody>
           {jobGrades.map((grade) => (
             <TableRow key={grade._id}>
-              <TableCell>{grade.name}</TableCell>
+              <TableCell>{grade.name}  -  {grade.level}</TableCell>
               <TableCell>{grade.level}</TableCell>
               <TableCell>
                 <Dialog open={isEditingGrade} onOpenChange={setIsEditingGrade}>

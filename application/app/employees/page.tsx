@@ -203,7 +203,7 @@ export default function EmployeesPage() {
             <TableHead>مكان العمل</TableHead>
             <TableHead>الكلية</TableHead>
             <TableHead>القسم</TableHead>
-            <TableHead>القب العلمي</TableHead>
+            <TableHead>الدرجة الوضيفية</TableHead>
             <TableHead>التعيين</TableHead>
             <TableHead>الإجراءات</TableHead>
           </TableRow>
@@ -224,7 +224,12 @@ export default function EmployeesPage() {
               <TableCell>{workplaces.find((w) => w._id === employee.workplaceId)?.name}</TableCell>
               <TableCell>{colleges.find((c) => c._id === employee.collegeId)?.name}</TableCell>
               <TableCell>{departments.find((d) => d._id === employee.departmentId)?.name}</TableCell>
-              <TableCell>{jobGrades.find((j) => j._id === employee.jobGradeId)?.name}</TableCell>
+              <TableCell>
+                {(() => {
+                  const grade = jobGrades.find((j) => j._id === employee.jobGradeId);
+                  return grade ? `${grade.name} - ${grade.level}` : '';
+                })()}
+              </TableCell>
               <TableCell>
                 {employee.isAssigned ? (
                   <>
