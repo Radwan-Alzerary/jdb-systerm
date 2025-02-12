@@ -405,19 +405,19 @@ export function EmployeeForm({
         return (
           <>
             <div>
-              <Label htmlFor="jobGradeId">القب العلمي</Label>
+              <Label htmlFor="jobGradeId">الدرجة الوضيفية</Label>
               <Select
                 name="jobGradeId"
                 value={formData.jobGradeId}
                 onValueChange={(value) => handleChange("jobGradeId", value)}
               >
                 <SelectTrigger>
-                  <SelectValue placeholder="القب العلمي" />
+                  <SelectValue placeholder="الدرجة الوضيفية" />
                 </SelectTrigger>
                 <SelectContent>
                   {jobGrades.map((grade) => (
                     <SelectItem key={grade._id} value={grade._id}>
-                      {grade.name}
+                      {grade.name}  -  {grade.level}
                     </SelectItem>
                   ))}
                 </SelectContent>
