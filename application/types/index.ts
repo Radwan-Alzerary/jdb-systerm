@@ -19,6 +19,9 @@ export interface Employee {
   assignmentEntity?: string
   assignedFrom?: string
   assignedTo?: string
+  ScientificTitle?:string
+  startFromDegreeDate?:string
+  hierarchy?:string
 }
 
 export interface Department {

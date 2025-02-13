@@ -12,13 +12,17 @@ const EmployeeSchema = new Schema({
   collegeId: { type: String, required: true },
   departmentId: { type: String, required: true },
   startDate: { type: String, required: true },
+  startFromDegreeDate: { type: String, required: true },
   specialCategory: { type: String, enum: ["politicalPrisoner", "martyrFamily"] },
   jobGradeId: { type: String, required: true },
   isAssigned: { type: Boolean, required: true, default: false },
   assignmentEntity: { type: String },
   assignedFrom: { type: String },
   assignedTo: { type: String },
-  createdBy: { type: String }  // Admin ID who created this record
+  createdBy: { type: String } , // Admin ID who created this record
+  ScientificTitle:{type:String},
+  hierarchy: { type: String, enum: ["تدريسي", "فني", "اداري"], required: true },
+
 }, { timestamps: true });
 
 module.exports = mongoose.model('Employee', EmployeeSchema);

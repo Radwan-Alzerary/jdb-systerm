@@ -90,7 +90,8 @@ export const createEmployee = async (employee: Omit<Employee, "id">): Promise<Em
 };
 
 export const updateEmployee = async (employee: Employee): Promise<Employee> => {
-  const response = await fetch(`${API_URL}/employees/${employee._id}`, {
+  console.log(employee)
+  const response = await fetch(`${API_URL}/employees/${employee.id}`, {
     ...defaultFetchOptions,
     method: "PUT",
     headers: getAuthHeaders(),

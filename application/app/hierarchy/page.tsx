@@ -5,7 +5,6 @@ import type {
   College,
   Department,
   Employee,
-  EmployeeType,
   Certificate,
   GeneralSpecialization,
   Subspecialty,
@@ -36,8 +35,10 @@ import {
 } from "@/utils/api"
 import { EmployeeSelector } from "@/components/EmployeeSelector"
 
+// Define the three allowed categories.
 type EmployeeCategory = "إداري" | "تدريسي" | "فني"
 
+// Extend the Employee type to include a category field for local usage.
 interface HierarchyEmployee extends Employee {
   category: EmployeeCategory
 }
@@ -72,7 +73,8 @@ export default function HierarchyPage() {
   const [selectedDepartment, setSelectedDepartment] = useState<string | null>(null)
   const [selectedCategory, setSelectedCategory] = useState<EmployeeCategory | null>(null)
   const [employees, setEmployees] = useState<Employee[]>([])
-    useEffect(() => {
+
+  useEffect(() => {
     fetchHierarchy()
   }, [])
 
@@ -114,13 +116,13 @@ export default function HierarchyPage() {
           })),
       }))
 
+      // Instead of inferring from an old type, use the new `hierarchy` field.
       employeesData.forEach((employee: Employee) => {
         const college = hierarchyData.find((c) => c._id === employee.collegeId)
         if (college) {
           const department = college.departments.find((d) => d._id === employee.departmentId)
           if (department) {
-            const category: EmployeeCategory =
-              employee.type === "Full-time" ? "تدريسي" : employee.type === "Part-time" ? "إداري" : "فني"
+            const category: EmployeeCategory = employee.hierarchy // New field usage
             department.employees[category].push({ ...employee, category })
           }
         }
@@ -147,8 +149,15 @@ export default function HierarchyPage() {
   const handleAddEmployee = async (employee: Omit<Employee, "id">) => {
     if (!selectedDepartment || !selectedCategory) return
 
+    // Create a new employee object with the new `hierarchy` field.
+    const employeeToAdd = {
+      ...employee,
+      departmentId: selectedDepartment,
+      hierarchy: selectedCategory,
+    }
+
     try {
-      await createEmployee(employee)
+      await createEmployee(employeeToAdd)
       fetchHierarchy()
       setIsAddingEmployee(false)
       toast({
@@ -169,10 +178,11 @@ export default function HierarchyPage() {
     const employee = employees.find((e) => e._id === employeeId)
     if (!employee) return
 
+    // Update the employee with the new department and new `hierarchy` value.
     const updatedEmployee: Employee = {
       ...employee,
       departmentId: newDepartmentId,
-      type: newCategory === "تدريسي" ? "Full-time" : newCategory === "إداري" ? "Part-time" : "Contract",
+      hierarchy: newCategory,
     }
 
     try {
@@ -192,8 +202,8 @@ export default function HierarchyPage() {
       })
     }
   }
-  // const availableEmployees = employees.filter((e) => e.departmentId !== department._id);
-  console.log("Available employees for department",  hierarchyData);
+
+  console.log("Available employees for department", hierarchyData);
 
   return (
     <div className="container mx-auto p-4">
@@ -279,32 +289,29 @@ export default function HierarchyPage() {
                                         <DialogTitle>إضافة موظف للقسم</DialogTitle>
                                       </DialogHeader>
                                       <>
-                                      <div>
-                                        {employees.departmentId}
-                                        </div></>
-                                      <EmployeeSelector
-                                        employees={employees.filter((e) => e.departmentId !== department._id)}
-                                        onSelectEmployee={(employeeId) =>
-                                          handleMoveEmployee(employeeId, department._id, category)
-                                        }
-                                        onAddEmployee={(employee) =>
-                                          handleAddEmployee({ ...employee, departmentId: department._id })
-                                        }
-                                        category={category}
-                                        certificates={certificates}
-                                        generalSpecializations={generalSpecializations}
-                                        subspecialties={subspecialties}
-                                        positions={positions}
-                                        workplaces={workplaces}
-                                        colleges={hierarchyData}
-                                        departments={
-                                          department.collegeId
-                                            ? hierarchyData.find((c) => c._id === department.collegeId)?.departments ||
-                                            []
-                                            : []
-                                        }
-                                        jobGrades={jobGrades}
-                                      />
+                                        <EmployeeSelector
+                                          employees={employees.filter((e) => e.departmentId !== department._id)}
+                                          onSelectEmployee={(employeeId) =>
+                                            handleMoveEmployee(employeeId, department._id, category)
+                                          }
+                                          onAddEmployee={(employee) =>
+                                            handleAddEmployee({ ...employee, departmentId: department._id })
+                                          }
+                                          category={category}
+                                          certificates={certificates}
+                                          generalSpecializations={generalSpecializations}
+                                          subspecialties={subspecialties}
+                                          positions={positions}
+                                          workplaces={workplaces}
+                                          colleges={hierarchyData}
+                                          departments={
+                                            department.collegeId
+                                              ? hierarchyData.find((c) => c._id === department.collegeId)?.departments || []
+                                              : []
+                                          }
+                                          jobGrades={jobGrades}
+                                        />
+                                      </>
                                     </DialogContent>
                                   </Dialog>
                                 </div>
@@ -324,4 +331,3 @@ export default function HierarchyPage() {
     </div>
   )
 }
-
