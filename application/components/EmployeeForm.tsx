@@ -93,6 +93,7 @@ export function EmployeeForm({
       name: employee?.name || "",
       type: employee?.type || "Full-time",
       certificateId: employee?.certificateId || "",
+      hierarchy: employee?.hierarchy || "",
       generalSpecializationId: employee?.generalSpecializationId || "",
       subspecialtyId: employee?.subspecialtyId || "",
       positionId: employee?.positionId || "",
@@ -139,6 +140,7 @@ export function EmployeeForm({
     "departmentId",
     "startDate",
     "jobGradeId",
+    "hierarchy"
   ];
 
   const checkFormValidity = () => {
@@ -480,6 +482,10 @@ export function EmployeeForm({
               <SelectItem key="استاذ" value="استاذ">
                 استاذ
               </SelectItem>
+              <SelectItem key="لا يوجد" value="لا يوجد">
+                لا يوجد             
+              </SelectItem>
+
             </SelectContent>
           </Select>
         </div>

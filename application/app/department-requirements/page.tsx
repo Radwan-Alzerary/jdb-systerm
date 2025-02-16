@@ -50,26 +50,47 @@ import {
 function doesEmployeeMatch(
   employee: Employee,
   requirementItem: {
-    certificateId?: string;
-    generalSpecializationId?: string;
-    subspecialtyId?: string;
+    requiredCertificateIds?: string[];
+    requiredGeneralSpecializationIds?: string[];
+    requiredSubspecialtyIds?: string[];
   }
 ) {
-  if (requirementItem.certificateId && employee.certificateId !== requirementItem.certificateId) {
-    return false;
-  }
+  // If the requirement array is non-empty, check the employee's field is in it:
+  
+  // Certificate:
   if (
-    requirementItem.generalSpecializationId &&
-    employee.generalSpecializationId !== requirementItem.generalSpecializationId
+    requirementItem.requiredCertificateIds?.length &&
+    (!requirementItem.requiredCertificateIds.includes(employee.certificateId || ""))
   ) {
     return false;
   }
+  // console.log(!requirementItem.requiredGeneralSpecializationIds[0])
+  // if(!requirementItem.requiredGeneralSpecializationIds[0])
+  //   {console.log(true)
+  // return true;
+  // }
+  console.log(employee.generalSpecializationId + '--' + requirementItem.requiredGeneralSpecializationIds)
+
+  // General Specialization:
   if (
-    requirementItem.subspecialtyId &&
-    employee.subspecialtyId !== requirementItem.subspecialtyId
+    requirementItem.requiredGeneralSpecializationIds?.length &&
+    (!requirementItem.requiredGeneralSpecializationIds.includes(employee.generalSpecializationId || ""))
   ) {
     return false;
   }
+  // if(!requirementItem.requiredSubspecialtyIds[0]){
+  // return true;
+  // }
+
+  // Subspecialty:
+  if (
+    requirementItem.requiredSubspecialtyIds?.length &&
+    !requirementItem.requiredSubspecialtyIds.includes(employee.subspecialtyId || "")
+  ) {
+    return false;
+  }
+
+  // Passed all checks => matches
   return true;
 }
 
@@ -246,21 +267,30 @@ export default function DepartmentRequirementsPage() {
 
       {/* List of Department Requirements */}
       {requirements.map((requirement) => {
+        // "Flatten" the three categories into one array, labeling each with a "type"
         const department = departments.find((d) => d._id === requirement.departmentId);
         const college = colleges.find((c) => c._id === department?.collegeId);
 
-        // Combine admin/teaching/tech items into one array with a "type" label
         const breakdownItems = [
-          ...requirement.administrative.map((item) => ({ ...item, type: "إداري" })),
-          ...requirement.teaching.map((item) => ({ ...item, type: "تعليمي" })),
-          ...requirement.technician.map((item) => ({ ...item, type: "فني" })),
+          ...requirement.administrative.map((item) => ({
+            ...item,
+            type: "إداري",
+          })),
+          ...requirement.teaching.map((item) => ({
+            ...item,
+            type: "تدريسي",
+          })),
+          ...requirement.technician.map((item) => ({
+            ...item,
+            type: "فني",
+          })),
         ];
 
         return (
           <Card key={requirement._id} className="mb-6">
             <CardHeader>
-              <CardTitle>{department?.name}</CardTitle>
-              <p className="text-sm text-muted-foreground">{college?.name}</p>
+              {/* Example: Show department name if you have it */}
+              <CardTitle>قسم {department.name}</CardTitle>
             </CardHeader>
             <CardContent>
               {/* Existing Requirements Overview (Optional) */}
@@ -277,7 +307,7 @@ export default function DepartmentRequirementsPage() {
               <h3 className="text-lg font-semibold mb-2">المتطلبات مقابل المتوفر</h3>
               <ScrollArea>
                 <table className="w-full border border-collapse text-sm">
-                  <thead className="bg-gray-100">
+                  <thead className="bg-gray-50">
                     <tr>
                       <th className="border p-2">الوظيفة</th>
                       <th className="border p-2">الشهادة</th>
@@ -290,31 +320,49 @@ export default function DepartmentRequirementsPage() {
                   </thead>
                   <tbody>
                     {breakdownItems.map((item, idx) => {
-                      const requiredCount = item.count;
+                      // 1) Number required
+                      const requiredCount = item.numberOfEmployees;
 
-                      // Count how many employees match
+                      // 2) How many employees in this department match
                       const availableCount = employees.filter((emp) => {
+                        // Must belong to the same department
                         if (emp.departmentId !== requirement.departmentId) return false;
+                        // Then check if they match the required arrays
                         return doesEmployeeMatch(emp, item);
                       }).length;
 
                       const gap = requiredCount - availableCount;
 
-                      // Look up names
-                      const certName =
-                        certificates.find((c) => c._id === item.certificateId)?.name || "-";
-                      const genSpecName =
-                        generalSpecializations.find((gs) => gs._id === item.generalSpecializationId)
-                          ?.name || "-";
-                      const subSpecName =
-                        subspecialties.find((ss) => ss._id === item.subspecialtyId)?.name || "-";
+                      // Format the array of certificate IDs into a string
+                      const certNames = (item.requiredCertificateIds || [])
+                        .map(
+                          (cid) =>
+                            certificates.find((c) => c._id === cid)?.name || "-"
+                        )
+                        .join(", ");
+
+                      // Format the array of general specialization IDs
+                      const genSpecNames = (item.requiredGeneralSpecializationIds || [])
+                        .map(
+                          (gsId) =>
+                            generalSpecializations.find((g) => g._id === gsId)?.name || "-"
+                        )
+                        .join(", ");
+
+                      // Format the array of subspecialty IDs
+                      const subSpecNames = (item.requiredSubspecialtyIds || [])
+                        .map(
+                          (ssId) =>
+                            subspecialties.find((s) => s._id === ssId)?.name || "-"
+                        )
+                        .join(", ");
 
                       return (
                         <tr key={idx} className="hover:bg-gray-50">
                           <td className="border p-2 text-center">{item.type}</td>
-                          <td className="border p-2 text-center">{certName}</td>
-                          <td className="border p-2 text-center">{genSpecName}</td>
-                          <td className="border p-2 text-center">{subSpecName}</td>
+                          <td className="border p-2 text-center">{certNames}</td>
+                          <td className="border p-2 text-center">{genSpecNames}</td>
+                          <td className="border p-2 text-center">{subSpecNames}</td>
                           <td className="border p-2 text-center">{requiredCount}</td>
                           <td className="border p-2 text-center">{availableCount}</td>
                           <td className="border p-2 text-center">{gap}</td>
@@ -324,6 +372,7 @@ export default function DepartmentRequirementsPage() {
                   </tbody>
                 </table>
               </ScrollArea>
+
 
               {/* Suggestions Section */}
               <div className="mt-6">

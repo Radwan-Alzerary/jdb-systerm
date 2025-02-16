@@ -213,7 +213,7 @@ export default function EmployeesPage() {
             <TableRow key={employee._id}>
               <TableCell>{`${employee.name.split(" ")[0]} ${employee.name.split(" ")[1]} ${employee.name.split(" ")[2]} ${employee.name.split(" ")[3]}`}</TableCell>
               <TableCell>
-                {employee.type === "Full-time" ? "ملاك" : employee.type === "Part-time" ? "منسب" : "عقد"}
+              {employee.type === "Full-time" ? "ملاك" : employee.type === "Part-time" ? "منسب" : "عقد"}
               </TableCell>
               <TableCell>{certificates.find((c) => c._id === employee.certificateId)?.name}</TableCell>
               <TableCell>
