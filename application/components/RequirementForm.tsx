@@ -18,6 +18,7 @@ import type {
 } from "@/types"
 
 interface RequirementFormProps {
+  id?: string // Allow passing an id prop
   colleges: College[]
   departments: Department[]
   certificates: Certificate[]
@@ -28,6 +29,7 @@ interface RequirementFormProps {
 }
 
 export function RequirementForm({
+  id = "requirement-form", // default id if none is provided
   colleges,
   departments,
   certificates,
@@ -47,9 +49,19 @@ export function RequirementForm({
     initialData ? departments.find((d) => d._id === initialData.departmentId)?.collegeId || "" : "",
   )
 
+  // Function to remove any client-side "id" keys from the category requirements
+  const cleanCategory = (items: CategoryRequirement[]) =>
+    items.map(({ id, ...rest }) => rest)
+
   const handleSubmit = (e: React.FormEvent) => {
     e.preventDefault()
-    onSubmit(formData)
+    const cleanedFormData = {
+      ...formData,
+      administrative: cleanCategory(formData.administrative),
+      teaching: cleanCategory(formData.teaching),
+      technician: cleanCategory(formData.technician),
+    }
+    onSubmit(cleanedFormData)
   }
 
   const addCategoryRequirement =
@@ -60,7 +72,7 @@ export function RequirementForm({
         [category]: [
           ...(prev[category] || []),
           {
-            id: Date.now().toString(),
+            id: Date.now().toString(), // This client-side id will be removed on submit
             numberOfEmployees: 0,
             requiredCertificateIds: [],
             requiredGeneralSpecializationIds: [],
@@ -94,11 +106,8 @@ export function RequirementForm({
 
   return (
     <form
-      id="requirement-form"
-      onSubmit={(e) => {
-        e.preventDefault()
-        onSubmit(formData)
-      }}
+      id={id}
+      onSubmit={handleSubmit}
       className="space-y-6"
     >
       <div className="space-y-4">
@@ -155,7 +164,8 @@ export function RequirementForm({
         {(["administrative", "teaching", "technician"] as const).map((category) => (
           <TabsContent key={category} value={category}>
             {formData[category].map((req, index) => (
-              <Card key={req._id} className="mb-4">
+              // Use req.id for client-side keys only
+              <Card key={req.id} className="mb-4">
                 <CardHeader>
                   <CardTitle className="text-lg">المتطلب {index + 1}</CardTitle>
                 </CardHeader>
@@ -183,7 +193,7 @@ export function RequirementForm({
                   <CheckboxGroup
                     label="التخصصات العامة المطلوبة"
                     options={generalSpecializations.map((gs) => ({ label: gs.name, value: gs._id }))}
-                    selected={req.requiredGeneralSpecializationIds}
+                    selected={req.requiredGeneralizationIds || req.requiredGeneralSpecializationIds}
                     onChange={(selected) =>
                       updateCategoryRequirement(category, index, "requiredGeneralSpecializationIds", selected)
                     }
@@ -211,4 +221,3 @@ export function RequirementForm({
     </form>
   )
 }
-

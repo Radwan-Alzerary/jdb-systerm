@@ -445,6 +445,7 @@ export const createDepartmentRequirement = async (
 export const updateDepartmentRequirement = async (
   requirement: DepartmentRequirement
 ): Promise<DepartmentRequirement> => {
+  
   const response = await fetch(`${API_URL}/department-requirements/${requirement._id}`, {
     ...defaultFetchOptions,
     method: "PUT",
