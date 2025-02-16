@@ -32,17 +32,17 @@ import { useRouter } from "next/navigation"
 
 const menuItems = [
   { icon: LayoutDashboard, label: "لوحة التحكم", href: "/dashboard" },
-  { icon: Users, label: "الموظفون", href: "/employees" },
+  { icon: GraduationCap, label: "الكليات و المعاهد", href: "/colleges" },
+  { icon: Building2, label: "الأقسام", href: "/departments" },
   { icon: Award, label: "الشهادات", href: "/certificates" },
   { icon: Book, label: "التخصصات العامة", href: "/general-specializations" },
   { icon: Microscope, label: "التخصصات الدقيقة", href: "/subspecialties" },
   { icon: Briefcase, label: "المناصب", href: "/positions" },
   { icon: MapPin, label: "أماكن العمل", href: "/workplaces" },
-  { icon: GraduationCap, label: "الكليات و المعاهد", href: "/colleges" },
-  { icon: Building2, label: "الأقسام", href: "/departments" },
+  { icon: Briefcase, label: "الدرجة الوظيفية", href: "/job-grades" },
+  { icon: Users, label: "الموظفون", href: "/employees" },
   { icon: ClipboardList, label: "متطلبات الأقسام", href: "/department-requirements" },
   { icon: HierarchyIcon, label: "الهيكل التنظيمي", href: "/hierarchy" },
-  { icon: Briefcase, label: "الدرجة الوظيفية", href: "/job-grades" },
   { icon: Shield, label: "إدارة المسؤولين", href: "/admin-management" },
 ]
 
