@@ -315,7 +315,7 @@ export default function DepartmentRequirementsPage() {
                       <th className="border p-2">التخصص الدقيق</th>
                       <th className="border p-2">المطلوب</th>
                       <th className="border p-2">المتوفر</th>
-                      <th className="border p-2">الفجوة</th>
+                      <th className="border p-2">الاحتياج</th>
                     </tr>
                   </thead>
                   <tbody>
